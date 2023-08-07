@@ -5,17 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-enum class ExpressionElement {
-    NUMERO,
-    MAS,
-    MENOS,
-    MULTI,
-    DIV,
-    MOD,
-    POTENCIA,
-    OPEN_PARENTHESIS,
-    CLOSE_PARENTHESIS
-}
 class MainActivity : AppCompatActivity() {
     private lateinit var textField: EditText
 
@@ -87,12 +76,14 @@ class MainActivity : AppCompatActivity() {
 
         // Array que guarda los enum de los elementos
         val expressionArray = mutableListOf<ExpressionElement>()
+        val expressionNumbers = mutableListOf<Float>()
 
         var currentNumber = StringBuilder()
 
         fun addNumberToExpression() {
             if (currentNumber.isNotEmpty()) {
                 expressionArray.add(ExpressionElement.NUMERO)
+                expressionNumbers.add(currentNumber.toString().toFloat())
                 currentNumber.clear()
             }
         }
@@ -142,9 +133,19 @@ class MainActivity : AppCompatActivity() {
 
         addNumberToExpression()
 
-        //for (element in expressionArray) {
-        //   println(element.toString())
-        //}
+        if (isValid(expressionArray)) {
+            val expression = Expression(expressionArray, expressionNumbers)
+            val total = evaluate(expression)
+            // Fernando...
+            // Do something with the total
+        } else {
+            // Fernando...
+            // Display the error
+        }
+    }
+
+    fun isValid(exp: MutableList<ExpressionElement>): Boolean {
+        // Fernando...
     }
 
     // CLEAR
