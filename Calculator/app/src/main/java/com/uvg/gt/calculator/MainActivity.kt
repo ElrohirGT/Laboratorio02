@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+
 class MainActivity : AppCompatActivity() {
     private lateinit var textField: EditText
 
@@ -145,7 +146,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun isValid(exp: MutableList<ExpressionElement>): Boolean {
-        // Fernando...
+        var validationCount: Boolean = true;
+        for(item in exp){
+            val currentIndex: Int = exp.indexOf(item)
+            if(ValidationHelper.isValidParenthesis(exp as ArrayDeque<ExpressionElement>, currentIndex)){
+                validationCount = false
+            }
+            if(ValidationHelper.isNumberValid(item)) {
+                validationCount = false
+            }
+        }
+        return validationCount
     }
 
     // CLEAR
