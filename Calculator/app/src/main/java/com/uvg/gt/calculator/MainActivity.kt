@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             textField.setText(total.toString())
         }
         else {
-            textField.setText("")
+            textField.setText("Invalid expression")
         }
     }
 
