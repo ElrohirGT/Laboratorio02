@@ -3,6 +3,22 @@ package com.uvg.gt.calculator
 class ValidationHelper {
 
     companion object {
+        fun isConvertibleToNumber(element: ExpressionElement): Boolean {
+            val elementToString = element.toString()
+            var isConvertible = true
+            isConvertible = try {
+                elementToString.toInt()
+                true
+            } catch (e1: NumberFormatException) {
+                try {
+                    elementToString.toFloat()
+                    true
+                } catch (e2: NumberFormatException) {
+                    false
+                }
+            }
+            return isConvertible
+        }
         fun isNumberValid(element: ExpressionElement): Boolean {
             val dotCount = element.toString().count { it == '.' }
             return dotCount <= 1
@@ -39,6 +55,21 @@ class ValidationHelper {
             }
 
             return isValidParenthesis(stack, index + 1)
+        }
+
+        fun hasValidOperators(inputList: MutableList<ExpressionElement>): Boolean {
+            var invalidOperatorFound = false
+            for (i in 1 until inputList.size) {
+                val currentElement = inputList[i]
+                val prevElement = inputList[i - 1]
+                val nextElement = inputList[i + 1]
+
+                if(isOperator(currentElement) && (!isConvertibleToNumber(prevElement) || !isConvertibleToNumber(nextElement))) {
+                    invalidOperatorFound = true
+                    break
+                }
+            }
+            return invalidOperatorFound
         }
     }
 }

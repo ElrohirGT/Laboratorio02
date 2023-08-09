@@ -137,26 +137,28 @@ class MainActivity : AppCompatActivity() {
         if (isValid(expressionArray)) {
             val expression = Expression(expressionArray, expressionNumbers)
             val total = evaluate(expression)
-            // Fernando...
-            // Do something with the total
-        } else {
-            // Fernando...
-            // Display the error
+            textField.setText(total.toString())
         }
+//        else {
+//            textField.setText("")
+//        }
     }
 
     fun isValid(exp: MutableList<ExpressionElement>): Boolean {
-        var validationCount: Boolean = true;
+        var validationResult: Boolean = true;
         for(item in exp){
             val currentIndex: Int = exp.indexOf(item)
             if(ValidationHelper.isValidParenthesis(exp as ArrayDeque<ExpressionElement>, currentIndex)){
-                validationCount = false
+                validationResult = false
             }
             if(ValidationHelper.isNumberValid(item)) {
-                validationCount = false
+                validationResult = false
+            }
+            if(ValidationHelper.hasValidOperators(exp)){
+                validationResult = false
             }
         }
-        return validationCount
+        return validationResult
     }
 
     // CLEAR

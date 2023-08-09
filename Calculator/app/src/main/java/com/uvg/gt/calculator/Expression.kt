@@ -1,9 +1,6 @@
 package com.uvg.gt.calculator
 
-import android.R.attr.popupAnimationStyle
-import android.R.attr.top
 import java.io.InvalidObjectException
-import java.security.InvalidParameterException
 import java.util.LinkedList
 import java.util.Queue
 import java.util.Stack
@@ -85,7 +82,7 @@ private fun infixToPostfix(exp: Expression): Queue<Any> {
     return ans
 }
 
-private fun isOperator(el: ExpressionElement): Boolean {
+fun isOperator(el: ExpressionElement): Boolean {
     return when (el) {
         ExpressionElement.NUMERO -> false
         ExpressionElement.MAS -> true
