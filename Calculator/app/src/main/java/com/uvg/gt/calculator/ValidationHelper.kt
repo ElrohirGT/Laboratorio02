@@ -25,6 +25,10 @@ class ValidationHelper {
         }
 
         fun isValidParenthesis(stack: MutableList<ExpressionElement>, index: Int = 0): Boolean {
+            if (index >= stack.size) {
+                return true
+            }
+
             val current = stack.elementAt(index)
 
             if (current == ExpressionElement.OPEN_PARENTHESIS) {
@@ -41,7 +45,7 @@ class ValidationHelper {
 
                             updatedStack.removeAt(i)
                             updatedStack.removeAt(index)
-                            return isValidParenthesis(updatedStack.toCollection(ArrayDeque()), index)
+                            return isValidParenthesis(updatedStack, index)
                         } else {
                             nestedCount--
                         }
@@ -52,7 +56,6 @@ class ValidationHelper {
             if(current === ExpressionElement.CLOSE_PARENTHESIS){
                 return false
             }
-
             return isValidParenthesis(stack, index + 1)
         }
 
