@@ -60,22 +60,15 @@ class ValidationHelper {
         }
 
         fun hasValidOperators(inputList: MutableList<ExpressionElement>): Boolean {
-            var validOperators = false
-            for (i in 1 until inputList.size) {
+            var validOperators = true
+            for (i in 0 until inputList.size -1) {
                 val currentElement = inputList[i]
-                val isNumberPrevElement = inputList[i - 1] === ExpressionElement.NUMERO
-                val isNumberNextElement = inputList[i + 1] === ExpressionElement.NUMERO
-
-                val isCloseParenthesisPrevElement = inputList[i - 1] === ExpressionElement.CLOSE_PARENTHESIS
-                val isOpenParenthesisNextElement = inputList[i + 1] === ExpressionElement.OPEN_PARENTHESIS
-
+                val nextIndex = if(i+1 > inputList.size) i else i +1
+                val prevIndex = if(i-1 < inputList.size) i else i -1
                 if(isOperator(currentElement) && (
-                    (!isNumberPrevElement && !isNumberNextElement) ||
-                    (!isCloseParenthesisPrevElement && !isOpenParenthesisNextElement) ||
-                    (!isCloseParenthesisPrevElement && !isNumberNextElement) ||
-                    (!isNumberPrevElement && !isOpenParenthesisNextElement)
+                    (i !== prevIndex && isOperator(inputList[prevIndex])) || (i !== nextIndex && isOperator(inputList[nextIndex]))
                 )) {
-                    validOperators = true
+                    validOperators = false
                     break
                 }
             }
