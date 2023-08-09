@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         val expressionArray = mutableListOf<ExpressionElement>()
         val expressionNumbers = mutableListOf<Float>()
 
-        var currentNumber = StringBuilder()
+        val currentNumber = StringBuilder()
 
         fun addNumberToExpression() {
             if (currentNumber.isNotEmpty()) {
@@ -139,24 +139,18 @@ class MainActivity : AppCompatActivity() {
             val total = evaluate(expression)
             textField.setText(total.toString())
         }
-//        else {
-//            textField.setText("")
-//        }
+        else {
+            textField.setText("")
+        }
     }
 
-    fun isValid(exp: MutableList<ExpressionElement>): Boolean {
-        var validationResult: Boolean = true;
-        for(item in exp){
-            val currentIndex: Int = exp.indexOf(item)
-            if(ValidationHelper.isValidParenthesis(exp as ArrayDeque<ExpressionElement>, currentIndex)){
-                validationResult = false
-            }
-            if(ValidationHelper.isNumberValid(item)) {
-                validationResult = false
-            }
-            if(ValidationHelper.hasValidOperators(exp)){
-                validationResult = false
-            }
+    private fun isValid(exp: MutableList<ExpressionElement>): Boolean {
+        var validationResult = true
+        if(!ValidationHelper.isValidParenthesis(exp)){
+            validationResult = false
+        }
+        if(!ValidationHelper.hasValidOperators(exp)){
+            validationResult = false
         }
         return validationResult
     }

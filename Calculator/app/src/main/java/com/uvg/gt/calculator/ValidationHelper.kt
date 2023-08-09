@@ -24,11 +24,7 @@ class ValidationHelper {
             return dotCount <= 1
         }
 
-        fun isValidParenthesis(stack: ArrayDeque<ExpressionElement>, index: Int = 0): Boolean {
-            if (index >= stack.size) {
-                return true
-            }
-
+        fun isValidParenthesis(stack: MutableList<ExpressionElement>, index: Int = 0): Boolean {
             val current = stack.elementAt(index)
 
             if (current == ExpressionElement.OPEN_PARENTHESIS) {
@@ -53,23 +49,34 @@ class ValidationHelper {
                     i++
                 }
             }
+            if(current === ExpressionElement.CLOSE_PARENTHESIS){
+                return false
+            }
 
             return isValidParenthesis(stack, index + 1)
         }
 
         fun hasValidOperators(inputList: MutableList<ExpressionElement>): Boolean {
-            var invalidOperatorFound = false
+            var validOperators = false
             for (i in 1 until inputList.size) {
                 val currentElement = inputList[i]
-                val prevElement = inputList[i - 1]
-                val nextElement = inputList[i + 1]
+                val isNumberPrevElement = inputList[i - 1] === ExpressionElement.NUMERO
+                val isNumberNextElement = inputList[i + 1] === ExpressionElement.NUMERO
 
-                if(isOperator(currentElement) && (!isConvertibleToNumber(prevElement) || !isConvertibleToNumber(nextElement))) {
-                    invalidOperatorFound = true
+                val isCloseParenthesisPrevElement = inputList[i - 1] === ExpressionElement.CLOSE_PARENTHESIS
+                val isOpenParenthesisNextElement = inputList[i + 1] === ExpressionElement.OPEN_PARENTHESIS
+
+                if(isOperator(currentElement) && (
+                    (!isNumberPrevElement && !isNumberNextElement) ||
+                    (!isCloseParenthesisPrevElement && !isOpenParenthesisNextElement) ||
+                    (!isCloseParenthesisPrevElement && !isNumberNextElement) ||
+                    (!isNumberPrevElement && !isOpenParenthesisNextElement)
+                )) {
+                    validOperators = true
                     break
                 }
             }
-            return invalidOperatorFound
+            return validOperators
         }
     }
 }
