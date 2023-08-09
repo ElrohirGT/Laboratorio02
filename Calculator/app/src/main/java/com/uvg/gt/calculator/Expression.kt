@@ -64,6 +64,7 @@ private fun infixToPostfix(exp: Expression): Queue<Any> {
         else if (exp.tokens[i] == ExpressionElement.CLOSE_PARENTHESIS) {
             while (stack.isNotEmpty() && stack.peek() != ExpressionElement.OPEN_PARENTHESIS)
                 ans.add(stack.pop())
+            stack.pop() // Removes the OPEN_PARENTHESIS
         }
 
         // If the scanned character is an operator
